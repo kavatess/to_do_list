@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+    </form>
+    <button id="login-btn" class="btn btn-primary">Submit</button>
+</body>
+
+<script>
+    function sendLoginInfo() {
+        var loginInfo = { username: username.value, password: password.value };
+        return new Promise((resolve, reject) => {
+            var url = `http://localhost:9000/login`;
+            var process = new XMLHttpRequest();
+            process.open("POST", url, true);
+            process.send(JSON.stringify(loginInfo));
+            process.onload = () => {
+                var result = process.responseText;
+                if (result != "") result = JSON.parse(result);
+                if (result instanceof Error) {
+                    reject(result);
+                } else resolve(result);
+            }
+        });
+    }
+
+    document.getElementById('login-btn').onclick = () => {
+        sendLoginInfo().then(result => {
+            console.log(result);
+            if (result.loginResult == true) {
+                window.location = 'to_do_list.html';
+            } else {
+                throw new Error('Đăng nhập thất bại.');
+            }
+        }).catch(err => alert(err));
+    }
+</script>
+
+</html>
