@@ -13,7 +13,11 @@ function fix_card() {
         new_card_fixed.deadline = document.getElementById("fix_deadline").value;
         var index_thu = Number(document.getElementById("fix_detail").getAttribute('thu_duoc_fix'));
         var index_card_fix = Number(document.getElementById("fix_detail").getAttribute('the_duoc_fix'));
-        var fixCardReq = [new_card_fixed, index_thu, index_card_fix];
+        var fixCardReq = {
+            new_card_fixed: new_card_fixed,
+            index_thu: index_thu,
+            index_card_fix: index_card_fix
+        };
         request.open("POST", 'http://localhost:9000/fix_card', true);
         request.send(JSON.stringify(fixCardReq));
         request.onload = () => {
