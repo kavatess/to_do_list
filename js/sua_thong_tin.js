@@ -19,7 +19,7 @@ function sua_thong_tin(index, chi_so) {
     <div class="inline-block">
         <label>Thời gian hoàn thành</label>
         <div>
-        <input type="date" id="fix_deadline">
+        <input type="date" id="fix_deadline_date">
         <input type="time" id="fix_deadline_time">
         </div>
     </div>`
