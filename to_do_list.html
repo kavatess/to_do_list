@@ -105,12 +105,23 @@
     getTaskData();
 
     function getTaskData() {
-        var request = new XMLHttpRequest();
-        request.open("GET", 'http://localhost:9000/get-task', false);
-        request.send("");
-        var result = request.responseText;
-        if (result != "") danh_sach_lon = JSON.parse(result);
-        createAll();
+        const localStorageToken = window.localStorage.getItem('token');
+        if (localStorageToken == null) {
+            window.location = 'dang_nhap.html';
+        }
+        else {
+            const request = new XMLHttpRequest();
+            request.open("POST", 'http://localhost:9000/get-task', true);
+            request.send(JSON.stringify({ token: localStorageToken }));
+            request.onload = () => {
+                let result = request.responseText;
+                if (result != "") result = JSON.parse(result);
+                if (result instanceof Error) {
+                    alert(result);
+                };
+                createAll();
+            }
+        }
     }
 
     var a = {

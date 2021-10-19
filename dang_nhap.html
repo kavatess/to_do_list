@@ -59,11 +59,8 @@
     document.getElementById('login-btn').onclick = () => {
         sendLoginInfo().then(result => {
             console.log(result);
-            if (result.loginResult == true) {
-                window.location = 'to_do_list.html';
-            } else {
-                throw new Error('Đăng nhập thất bại.');
-            }
+            window.location = 'to_do_list.html';
+            window.localStorage.setItem('token', result.token);
         }).catch(err => alert(err));
     }
 </script>
